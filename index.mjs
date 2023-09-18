@@ -61,7 +61,7 @@ app.get("/api/v1/posts", async (req, res) => {
 
 app.get("/api/v1/search", async (req, res) => {
   const queryText = req.query.q;
-  console.log("queryText", queryText);
+  // console.log("queryText", queryText);
 
   const response = await openai.embeddings.create({
     model: "text-embedding-ada-002",
@@ -94,7 +94,7 @@ app.get("/api/v1/search", async (req, res) => {
       },
     ])
     .toArray();
-  console.log("documents", documents);
+  // console.log("documents", documents);
   res.send(documents);
 });
 
@@ -121,7 +121,7 @@ app.post("/api/v1/post", async (req, res) => {
 });
 
 app.put("/api/v1/post/:id", async (req, res) => {
-  console.log("🚀 ~ file: index.mjs:125 ~ app.put ~ req.params.id:", req.params.id)
+  // console.log("🚀 ~ file: index.mjs:125 ~ app.put ~ req.params.id:", req.params.id)
   if (!ObjectId.isValid(req.params.id)) {
     res.status(403).send({ message: "incorrect product id" });
     return;

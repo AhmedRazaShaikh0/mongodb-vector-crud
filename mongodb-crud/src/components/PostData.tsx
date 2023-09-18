@@ -4,72 +4,32 @@ import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
-
-const baseUrl = ""
-const data = [
-  {
-    metadata: {
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.      ",
-    },
-  },
-  {
-    metadata: {
-      text: "asasa",
-    },
-  },
-  {
-    metadata: {
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry",
-    },
-  },
-  {
-    metadata: {
-      text: "asasa",
-    },
-  },
-  {
-    metadata: {
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industryLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industryLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industryLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industryLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industryLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry",
-    },
-  },
-];
+const baseUrl = "";
 
 export default function PostData() {
   const ref = useRef<any>(null);
   const ref2 = useRef<any>(null);
   const ref3 = useRef<any>(null);
   const [data, setData] = useState<any>([]);
-  console.log("🚀 ~ file: PostData.tsx:26 ~ PostData ~ data:", data);
   const [isOpen, setIsOpen] = useState(false);
-  console.log("🚀 ~ file: PostData.tsx:42 ~ PostData ~ isOpen:", isOpen);
   const [update, setUpdate] = useState(false);
-  // const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);
   const [editingPostText, setEditingPostText] = useState("");
   const [updateIndex, setUpdateIndex] = useState(-1);
   const [settings, setSettings] = useState(null);
-  // const [posting, setPosting] = useState(false);
-
-  // const editPost = (text: any) => {
-  //   setEditingPostText(text);
-  //   setUpdate(true); // Open the form
-  //   setSettings(null);
-  // };
 
   const editPost = (index: number) => {
-    setUpdate(true); // Ope☻n the form
+    setUpdate(true);
     setSettings(null);
     setUpdateIndex(index);
-    setEditingPostText(data[index].text); // Set the text for editing
+    setEditingPostText(data[index].text);
   };
 
   const toggleSettings = (id: any) => {
     if (settings === id) {
-      // If the clicked icon is already open, close it
       setSettings(null);
     } else {
-      // Otherwise, open the clicked icon
       setSettings(id);
     }
   };
@@ -79,74 +39,30 @@ export default function PostData() {
     event.target.style.height = `${event.target.scrollHeight}px`; // Set to scrollHeight
   }
 
-  // useEffect(() => {
-  // setTimeout(() => {
-  // fetch("/api/v1/posts", {
-  //   cache: "no-cache",
-  // })
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  // console.log("datadatadata", data);
-  //     setData(data || []);
-  //     setLoading(false);
-  //   });
-  // }, 5000);
-  // }
-  // (async () => {
-
   useEffect(() => {
     getData();
   }, []);
 
-  //   })();
-  //   // };
-  // }, []);
-  // useEffect(() => {
-  // console.log("nechy wala");
-  //   // setTimeout(() => {
-  //   // getAllPosts();
-  //   // }, 2000);
-  // }, [state]);
   async function getData() {
-    console.log("first");
     try {
       setLoading(true);
-      // const res = await axios.get(
-      //   `/api/v1/posts?text=${ref2.current.value}`
-      // );
-      const res = await axios.get(
-        `${baseUrl}/api/v1/posts`
-        // `${baseUrl}/api/v1/posts?text=${ref2.current.value}`
-      );
-      // const data = await res.json();
+
+      const res = await axios.get(`${baseUrl}/api/v1/posts`);
       setData(res.data);
-      // setState(!state);
       setLoading(false);
-      // console.log("res", res);
-      // console.log("oper wala");
     } catch (error) {
       console.log(error);
     }
   }
 
-
   async function searchData() {
-    console.log("first");
     try {
       setLoading(true);
-      // const res = await axios.get(
-      //   `/api/v1/posts?text=${ref2.current.value}`
-      // );
       const res = await axios.get(
         `${baseUrl}/api/v1/search?q=${ref2.current.value}`
-        // `${baseUrl}/api/v1/posts?text=${ref2.current.value}`
       );
-      // const data = await res.json();
       setData(res.data);
-      // setState(!state);
       setLoading(false);
-      // console.log("res", res);
-      // console.log("oper wala");
     } catch (error) {
       console.log(error);
     }
@@ -155,122 +71,50 @@ export default function PostData() {
   async function PostData() {
     setIsOpen(false);
     try {
-      // setPosting(true);
       setLoading(true);
-      // const PostedData = await axios.post("/api/v1/post", {
-      //   text: ref.current.value,
-      // });
+
       const PostedData = await axios.post(`${baseUrl}/api/v1/post`, {
         text: ref.current.value,
       });
-      console.log("PostedData", PostedData);
-      // toast.loading("Wait! Don't Go");
-      // setTimeout(() => {
-      //   toast.dismiss();
-      //   toast.loading("Just few seconds more!");
-      // }, 4000);
-      // setTimeout(() => {
-      //   toast.dismiss();
-      //   toast.loading("Here you go!");
-      // }, 12000);
-      // setTimeout(() => {
-      //   toast.dismiss();
-      // }, 18000);
-      // setTimeout(() => {
-      // setState(!state);
       toast.success("Post has been published!");
       getData();
-      // setPosting(false);
-      // }, 18000);
     } catch (error) {
       console.log(error);
-      // setLoading(false);
     }
   }
 
   async function UpdateData(id: any) {
-    console.log("🚀 ~ file: PostData.tsx:161 ~ UpdateData ~ id:", id);
     setUpdate(false);
     try {
-      // setPosting(true);
       setLoading(true);
-      // const PostedData = await axios.post("/api/v1/post", {
-      //   text: ref.current.value,
-      // });
-
-      const UpdatedData = await axios.put(
-        `${baseUrl}/api/v1/post/${id}`,
-        {
-          text: ref3.current.value,
-        }
-      );
-      console.log("UpdatedData", UpdatedData);
-
-      // toast.loading("Wait! Don't Go");
-      // setTimeout(() => {
-      //   toast.dismiss();
-      //   toast.loading("Just few seconds more!");
-      // }, 4000);
-      // setTimeout(() => {
-      //   toast.dismiss();
-      //   toast.loading("Here you go!");
-      // }, 12000);
-      // setTimeout(() => {
-      //   toast.dismiss();
-      // }, 18000);
-      // setTimeout(() => {
-      // setState(!state);
+      const UpdatedData = await axios.put(`${baseUrl}/api/v1/post/${id}`, {
+        text: ref3.current.value,
+      });
       toast.success("Post has been updated!");
       getData();
-      // setPosting(false);
-      // }, 18000);
     } catch (error) {
       console.log(error);
-      // setLoading(false);
     }
   }
 
   async function DeleteData(id: any) {
-    // console.log("🚀 ~ file: PostData.tsx:161 ~ DeleteData ~ id:", id);
-    // setUpdate(false);
     setSettings(null);
     try {
-      // setPosting(true);
       setLoading(true);
-      // const PostedData = await axios.post("/api/v1/post", {
-      //   text: ref.current.value,
-      // });
-
-      const DeletedData = await axios.delete(
-        `${baseUrl}/api/v1/post/${id}`
-      );
-      console.log("PostedData", DeletedData);
+      const DeletedData = await axios.delete(`${baseUrl}/api/v1/post/${id}`);
 
       toast.success("Post has been deleted!");
       getData();
-      // setPosting(false);
-      // }, 18000);
     } catch (error) {
       console.log(error);
-      // setLoading(false);
+      setLoading(false);
     }
   }
 
   function handleSearch(event: any) {
     event.preventDefault();
     searchData();
-    // setState(!state);
-    // console.log("first");
   }
-  // const getAllPosts = async () => {
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const res = await fetch("/api/v1/post");
-  //     const data = await res.json();
-  // console.log("data", data);
-  //   });
-  // }, []);
 
   return (
     <div className="bg-[#F0F2F5] p-4 overflow-y-scroll h-screen">
@@ -498,11 +342,7 @@ export default function PostData() {
                   <div>
                     <textarea
                       onChange={(e) => setEditingPostText(e.target.value)}
-                      // onInput={(e) => setEditingPostText((e.target as HTMLTextAreaElement).value)}
-                      // onInput={autoResize}
-                      // style={{ overflowY: "hidden" }}
                       rows={4}
-                      // defaultValue={editingPostText}
                       value={editingPostText}
                       ref={ref3}
                       placeholder="What's on your mind, Ahmed?"
@@ -631,12 +471,8 @@ export default function PostData() {
             </div>
             <div>
               <textarea
-                // onChange={(e) => setEditingPostText(e.target.value)}
-
                 onInput={autoResize}
-                // style={{ overflowY: "hidden" }}
                 rows={4}
-                // value={editingPostText}
                 ref={ref}
                 placeholder="What's on your mind, Ahmed?"
                 className="text-xl resize-none w-full focus-visible:outline-none"
