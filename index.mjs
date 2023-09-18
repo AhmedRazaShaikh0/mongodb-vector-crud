@@ -121,6 +121,7 @@ app.post("/api/v1/post", async (req, res) => {
 });
 
 app.put("/api/v1/post/:id", async (req, res) => {
+  console.log("🚀 ~ file: index.mjs:125 ~ app.put ~ req.params.id:", req.params.id)
   if (!ObjectId.isValid(req.params.id)) {
     res.status(403).send({ message: "incorrect product id" });
     return;
@@ -128,7 +129,7 @@ app.put("/api/v1/post/:id", async (req, res) => {
 
   let post = {};
 
-  if (req.body.title) post.text = req.body.text;
+  if (req.body.text) post.text = req.body.text;
 
   try {
     const updateResponse = await postCollection.updateOne(
